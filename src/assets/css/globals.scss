@@ -1,0 +1,191 @@
+@import "./reset";
+
+// Palette
+$primary:       #414C3C;
+$primary-white: #E9ECE9;
+$primary-light: lighten($primary, 50%);
+$primary-dark:  darken($primary, 11%);
+
+// Breakpoints and sizes
+$bp-s: 600px;
+$bp-m: 1200px;
+$bp-l: 1600px;
+$border-radius: 2px;
+$fixed-margin: 10px;
+$drop: 0.3rem;
+
+// Curves
+$duration-s: 0.08s;
+$duration-m: 0.27s;
+   $in-s: $duration-s ease-in;
+  $out-s: $duration-s ease-out;
+$inout-s: $duration-s ease-in-out;
+   $in-m: $duration-m ease-in;
+  $out-m: $duration-m ease-out;
+$inout-m: $duration-m ease-in-out;
+
+/*
+   Width is divided into breakpoints:
+
+   ]  1  ] [  2  ] [  3  ] [  4  [
+          ^       ^       ^
+   ------ S ----- M ----- L ----->
+
+   The first breakpoint also includes devices with a height under S
+*/
+
+// Breakpoint-focused behaviour
+// /!\ Queries are not complementary: 1 + 234 = 1234 but 1 + 23 != 123
+@mixin breakpoint($bp) {
+	     @if $bp == 1   { @media (max-width: $bp-s),
+	     	                       (max-height: $bp-s) { @content; }}
+	@else if $bp == 12  { @media (max-width: $bp-m) { @content; }}
+	@else if $bp == 123 { @media (max-width: $bp-l) { @content; }}
+	@else if $bp == 4   { @media (min-width: $bp-l) { @content; }}
+	@else if $bp == 34  { @media (min-width: $bp-m) { @content; }}
+	@else if $bp == 234 { @media (min-width: $bp-s),
+	     	                       (min-height: $bp-s) { @content; }}
+	@else if $bp == 2   { @media (min-width: $bp-s)
+	                         and (max-width: $bp-m) { @content; }}
+	@else if $bp == 3   { @media (min-width: $bp-m)
+	                         and (max-width: $bp-l) { @content; }}
+	@else if $bp == 23  { @media (min-width: $bp-s)
+	                         and (max-width: $bp-l) { @content; }}
+}
+
+// Property-focused behaviour
+@mixin responsive($properties) {
+	@media (max-width: $bp-s),
+	       (max-height: $bp-s) {
+		@each $p in $properties {
+			#{nth($p, 1)}: nth($p, 2);
+		}
+	}
+	@media (min-width: $bp-s)
+	   and (min-height: $bp-s)
+	   and (max-width: $bp-m) {
+		@each $p in $properties {
+			#{nth($p, 1)}: nth($p, 3);
+		}
+	}
+	@media (min-width: $bp-m)
+	   and (max-width: $bp-l) {
+		@each $p in $properties {
+			#{nth($p, 1)}: nth($p, 4);
+		}
+	}
+	@media (min-width: $bp-l) {
+		@each $p in $properties {
+			#{nth($p, 1)}: nth($p, 5);
+		}
+	}
+}
+
+// Vanilla full-size element
+@mixin full() {
+	height: 100%;
+	left: 0;
+	position: absolute;
+	top: 0;
+	width: 100%;
+}
+
+// Flex column or row
+@mixin flex($dir, $center: true) {
+	display: flex;
+	
+	@if $dir == col { flex-flow: column; }
+	@if $dir == row { flex-flow: row; }
+	
+	@if $center {
+		align-items: center;
+		justify-content: center;
+	}
+}
+
+@mixin modal() {
+	background-color: white;
+	border: 1px solid $grayscale-light;
+	border-radius: $border-radius;
+}
+
+@mixin highlight() {
+	border: 1px solid transparent;
+	@include breakpoint(1) {
+		&:active {
+			background-color: $primary-light;
+			border-color: $primary-dark;
+		}
+	}
+	@include breakpoint(234) {
+		&:hover,
+		&:active { background-color: $primary-light; }
+		&:active { border-color: $primary-dark; }
+	}
+}
+
+@mixin input-base() {
+	background-color: transparent;
+	border: 1px solid transparent;
+	border-radius: $border-radius;
+	box-shadow: none;
+	box-sizing: border-box;
+	color: $primary-dark;
+	display: block;
+	font-size: 1rem;
+	font-weight: inherit;
+	margin: 0;
+	min-width: 0;
+	outline: none;
+	padding: 0 0.5rem;
+	-webkit-appearance: none;
+	&:hover,
+	&:active { border-color: $primary; }
+	&::placeholder { opacity: 0.5; }
+	&::-moz-focus-inner { border: none; }
+}
+
+// Reset and basic styling of inputs
+@mixin input-flat() {
+	@include input-base();
+	border-color: $primary;
+	box-shadow: $soft-shadow;
+	padding: 0.7rem 1rem;
+	&[type=text],
+	&[type=email],
+	&[type=password]
+	&[type=tel] {
+		background-color: white;
+		color: $primary-dark;
+		&:hover,
+		&:active,
+		&:focus { background-color: $primary-white; }
+	}
+	&[type=button],
+	&[type=submit],
+	&[type=reset] {
+		@include highlight();
+		background-color: $primary;
+		color: white;
+		cursor: pointer;
+	}
+}
+
+@mixin round-children() {
+	& > *:first-child {
+		border-bottom-left-radius: $border-radius;
+		border-top-left-radius: $border-radius;
+	}
+	& > *:not(:first-child) {
+		border-bottom-left-radius: 0;
+		border-top-left-radius: 0;
+	}
+	& > *:last-child {
+		border-bottom-right-radius: $border-radius;
+		border-top-right-radius: $border-radius;
+	}
+	& > *:not(:last-child) {
+		border-bottom-right-radius: 0;
+		border-top-right-radius: 0;
+	}
+}

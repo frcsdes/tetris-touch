@@ -1,8 +1,7 @@
 <template>
-	<div id="app">
-		<img src="./assets/logo.png">
+	<main @dragstart.prevent>
 		<router-view/>
-	</div>
+	</main>
 </template>
 
 <script>
@@ -11,13 +10,36 @@
 	};
 </script>
 
-<style>
-	#app {
-		font-family: "Avenir", Helvetica, Arial, sans-serif;
+<style lang="scss">
+	@import "~@/assets/css/reset";
+	@import "~@/assets/css/globals.scss";
+
+	@font-face {
+		font-family: "Pixeled";
+		src: url("~@/assets/fonts/Pixeled.ttf") format("truetype");
+	}
+
+	html {
+		@include responsive((
+			font-size 12px 16px 18px 24px,
+		));
+	}
+
+	body {
+		background-color: $primary-light;
+		color: $primary;
+		font-family: "Pixeled", Arial, sans-serif;
 		-webkit-font-smoothing: antialiased;
 		-moz-osx-font-smoothing: grayscale;
-		text-align: center;
-		color: #2c3e50;
-		margin-top: 60px;
+	}
+
+	main {
+		@include full();
+		@include flex(col);
+		::selection,
+		::-moz-selection {
+			background-color: $primary;
+			color: $primary-light;
+		}
 	}
 </style>
