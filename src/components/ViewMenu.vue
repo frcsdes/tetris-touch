@@ -1,7 +1,9 @@
 <template>
 	<section>
-		<h1>TETRIS</h1>
-		<h1>TOUCH</h1>
+		<header>
+			<h1>TETRIS</h1>
+			<h1>TOUCH</h1>
+		</header>
 
 		<ul>
 			<li>
@@ -30,12 +32,22 @@
 	section {
 		@include full();
 		@include flex(col);
-
 		padding: 20px;
+
+		header {
+			@include flex(col);
+			flex: 1 1 0;
+			h1 {
+				flex: 0 0 auto;
+				font-size: 4rem;
+				line-height: 7rem;
+				text-shadow: $drop $drop 0 $primary-dark;
+			}
+		}
 
 		ul {
 			@include flex(col);
-			flex: 1 1 0;
+			flex: 2 2 0;
 
 			li {
 				@include flex(row);
@@ -46,24 +58,16 @@
 				margin-bottom: 1rem + $drop;
 				overflow: hidden;
 				width: 100%;
-			}
-			
-		}
 
-		h1 {
-			flex: 0 0 auto;
-			// font-family: "Tetris", Arial, sans-serif;;
-			font-size: 4rem;
-			line-height: 7rem;
-			text-shadow: $drop $drop 0 $primary-dark;
-		}
-		a {
-			@include flex(row);
-			flex: 1 1 0;
-			font-size: 2rem;
-			height: 5rem;
-			padding: 0 1rem 1rem;
-			&:active { color: $primary-dark; }
+				a {
+					@include flex(row);
+					flex: 1 1 0;
+					font-size: 2rem;
+					height: 5rem;
+					padding: 0 1rem 1rem;
+					&:active { color: $primary-dark; }
+				}
+			}
 		}
 	}
 </style>
