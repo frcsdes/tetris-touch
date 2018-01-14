@@ -32,11 +32,10 @@
 	section {
 		@include full();
 		@include flex(col);
-		padding: 20px;
 
 		header {
 			@include flex(col);
-			flex: 1 1 0;
+			flex: 2 2 0;
 			h1 {
 				flex: 0 0 auto;
 				font-size: 4rem;
@@ -47,7 +46,7 @@
 
 		ul {
 			@include flex(col);
-			flex: 2 2 0;
+			flex: 3 3 0;
 
 			li {
 				@include flex(row);

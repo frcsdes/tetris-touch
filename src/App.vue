@@ -26,11 +26,15 @@
 	}
 
 	body {
-		background-color: $primary-light;
+		background-color: $primary-white;
 		color: $primary;
 		font-family: "Pixeled", Arial, sans-serif;
-		-webkit-font-smoothing: antialiased;
+		touch-action: manipulation;
 		-moz-osx-font-smoothing: grayscale;
+		-webkit-font-smoothing: antialiased;
+		-webkit-overflow-scrolling: touch;
+		-webkit-tap-highlight-color: transparent;
+		-webkit-touch-callout: none;
 	}
 
 	main {
