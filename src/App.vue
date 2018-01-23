@@ -19,11 +19,7 @@
 		src: url("~@/assets/fonts/Pixeled.ttf") format("truetype");
 	}
 
-	html {
-		@include responsive((
-			font-size 12px 16px 18px 24px,
-		));
-	}
+	html { @include responsive((font-size 12px 16px 18px 24px,)); }
 
 	body {
 		background-color: $primary-white;

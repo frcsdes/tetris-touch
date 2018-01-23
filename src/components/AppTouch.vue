@@ -7,6 +7,7 @@
 </template>
 
 <script>
+	import { recognizeGesture } from "@/assets/js/recognizer";
 	import { colorScheme } from "@/assets/js/utils";
 
 	export default {
@@ -15,7 +16,7 @@
 			touching: false,
 			lastTouch: null,
 			newTouch: null,
-			touchList: [],
+			touchArray: [],
 			clean: false,
 			rendering: false,
 		}),
@@ -24,14 +25,15 @@
 				const touch = event.touches[0];
 				this.lastTouch = this.newTouch;
 				this.newTouch = touch;
-				this.touchList.push([touch.clientX, touch.clientY]);
+				this.touchArray.push([touch.clientX, touch.clientY]);
 			},
 			handleTouchEnd () {
+				console.log(recognizeGesture(this.touchArray));
 				this.clean = true;
 				this.touching = false;
 				this.newTouch = null;
 				this.lastTouch = null;
-				this.touchList = [];
+				this.touchArray = [];
 			},
 			renderStart () {
 				this.rendering = true;

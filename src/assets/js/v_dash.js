@@ -14,8 +14,7 @@ export const andFunc = (a, b) => a && b;
 /**
  * Creates an object ready to register components from an array of modules
  * @param {Array} subComponents An array containing modules. These
- *                              must contain a `name` path, or have
- *                              a corresponding name in `names`
+ * must contain a `name` path, or have a corresponding name in `names`
  * @param {Array} names Optional. An array containing the remaining names
  * @return {Object} A new object describing the components
  */
@@ -35,7 +34,7 @@ export const subs = (subComponents, names = []) =>
 /**
  * Creates an object ready to register properties from a convenient format
  * @param {Array} An array of properties using the following format:
- *                ["required"|"optional", type, name, default]
+ * ["required"|"optional", type, name, default]
  * @return {Object} A new object describing the properties
  */
 export const props = (properties) =>
@@ -73,7 +72,7 @@ export const removeId = (originalArray) => (id) =>
  * @param {Element} ancestor The presumed child
  * @param {Element} child The presumed ancestor
  * @return {Boolean} true if `ancestor` precedes `child` in the DOM tree,
- *                   false otherwise
+ * false otherwise
  */
 export const isAncestor = (ancestor) => (child) =>
 	child
