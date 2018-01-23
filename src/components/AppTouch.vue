@@ -7,6 +7,7 @@
 </template>
 
 <script>
+	import { mapActions } from "vuex";
 	import { recognizeGesture } from "@/assets/js/recognizer";
 	import { colorScheme } from "@/assets/js/utils";
 
@@ -21,6 +22,7 @@
 			rendering: false,
 		}),
 		methods: {
+			...mapActions(["changeRecognizedShape"]),
 			handleTouchMove (event) {
 				const touch = event.touches[0];
 				this.lastTouch = this.newTouch;
@@ -28,7 +30,9 @@
 				this.touchArray.push([touch.clientX, touch.clientY]);
 			},
 			handleTouchEnd () {
-				console.log(recognizeGesture(this.touchArray));
+				const shape = recognizeGesture(this.touchArray);
+				console.log(shape);
+				this.changeRecognizedShape(shape);
 				this.clean = true;
 				this.touching = false;
 				this.newTouch = null;

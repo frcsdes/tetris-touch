@@ -29,6 +29,7 @@
 			<span>2<small>x</small>3</span>
 			<h2>Score</h2>
 			<span>3492</span>
+			<h2>{{ recognizedShape }}</h2>
 		</figcaption>
 	</figure>
 </template>
@@ -36,6 +37,7 @@
 <script>
 	import AppGameDefs from "./AppGameDefs";
 	import AppGameShape from "./AppGameShape";
+	import { mapState } from "vuex";
 	import { props, subs } from "@/assets/js/v_dash";
 
 	export default {
@@ -48,6 +50,7 @@
 			["optional", Object, "newShape", () => ({})],
 		]),
 		data: () => ({header: 6}),
+		computed: mapState(["recognizedShape"]),
 };
 </script>
 
