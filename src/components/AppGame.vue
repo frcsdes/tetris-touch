@@ -5,14 +5,14 @@
 			xmlns="http://www.w3.org/2000/svg"
 			xmlns:xlink="http://www.w3.org/1999/xlink"
 			version="1.1"
-			:viewBox="`0 0 ${gridWidth} ${gridHeight + header}`"
+			:viewBox="`0 0 ${gridWidth} ${gridHeight + headerLength}`"
 			preserveAspectRatio="xMidYMin"
 			meetOrSlice="meet"
 		>
 			<app-game-defs/>
-			<app-game-shape :id="newShape.id" :width="gridWidth" :height="header"/>
+			<app-game-shape/>
 
-			<g :transform="`translate(0, ${header})`">
+			<g :transform="`translate(0, ${headerLength})`">
 				<g v-for="(row, i) in gridHeight" :key="i">
 					<rect
 						v-for="(cell, j) in gridWidth" :key="j"
@@ -38,19 +38,15 @@
 	import AppGameDefs from "./AppGameDefs";
 	import AppGameShape from "./AppGameShape";
 	import { mapState } from "vuex";
-	import { props, subs } from "@/assets/js/v_dash";
+	import { subs } from "@/assets/js/v_dash";
 
 	export default {
 		name: "app-game",
 		components: subs([AppGameDefs, AppGameShape]),
-		props: props([
-			["required", Number, "gridHeight"],
-			["required", Number, "gridWidth"],
-			["required", Array, "grid"],
-			["optional", Object, "newShape", () => ({})],
+		computed: mapState([
+			"gridWidth", "gridHeight", "grid",
+			"headerLength", "recognizedShape",
 		]),
-		data: () => ({header: 6}),
-		computed: mapState(["recognizedShape"]),
 };
 </script>
 

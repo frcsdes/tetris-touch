@@ -7,44 +7,20 @@
 </template>
 
 <script>
-	import { mapActions } from "vuex";
-	import { recognizeGesture } from "@/assets/js/recognizer";
+	import { mapState, mapActions } from "vuex";
 	import { colorScheme } from "@/assets/js/utils";
 
 	export default {
 		name: "app-touch",
-		data: () => ({
-			touching: false,
-			lastTouch: null,
-			newTouch: null,
-			touchArray: [],
-			clean: false,
-			rendering: false,
-		}),
+		computed: mapState([
+			"newTouch", "lastTouch", "cleanTouch", "renderingTouch",
+		]),
 		methods: {
-			...mapActions(["changeRecognizedShape"]),
-			handleTouchMove (event) {
-				const touch = event.touches[0];
-				this.lastTouch = this.newTouch;
-				this.newTouch = touch;
-				this.touchArray.push([touch.clientX, touch.clientY]);
-			},
-			handleTouchEnd () {
-				const shape = recognizeGesture(this.touchArray);
-				console.log(shape);
-				this.changeRecognizedShape(shape);
-				this.clean = true;
-				this.touching = false;
-				this.newTouch = null;
-				this.lastTouch = null;
-				this.touchArray = [];
-			},
-			renderStart () {
-				this.rendering = true;
-				window.requestAnimationFrame(this.render);
-			},
-			renderStop () { this.rendering = false; },
-			render () {
+			...mapActions([
+				"handleTouchMove", "handleTouchEnd", "confirmCleanTouch",
+				"startRenderingTouch", "stopRenderingTouch",
+			]),
+			renderTouch () {
 				const canvas = this.$refs.canvas;
 				const context = canvas.getContext("2d");
 
@@ -69,18 +45,18 @@
 					context.closePath();
 				}
 
-				if (this.clean) {
-					this.clean = false;
+				if (this.cleanTouch) {
 					context.clearRect(0, 0, width, height);
+					this.confirmCleanTouch();
 				}
 
-				this.rendering
-					? window.requestAnimationFrame(this.render)
-					: window.cancelAnimationFrame(this.render);
+				this.renderingTouch
+					? window.requestAnimationFrame(this.renderTouch)
+					: window.cancelAnimationFrame(this.renderTouch);
 			},
 		},
-		mounted () { this.renderStart(); },
-		beforeDestroy () { this.renderStop(); },
+		mounted () { this.startRenderingTouch(this.renderTouch); },
+		beforeDestroy () { this.stopRenderingTouch(); },
 	};
 </script>
 

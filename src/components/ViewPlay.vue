@@ -1,10 +1,6 @@
 <template>
 	<section>
-		<app-game
-			:gridHeight="gridHeight"
-			:gridWidth="gridWidth"
-			:grid="grid"
-		/>
+		<app-game/>
 		<app-touch/>
 	</section>
 </template>
@@ -12,22 +8,18 @@
 <script>
 	import AppGame from "./AppGame";
 	import AppTouch from "./AppTouch";
+	import { mapActions } from "vuex";
 	import { subs } from "@/assets/js/v_dash";
-	import { emptyGrid } from "@/assets/js/utils";
 
 	export default {
 		name: "view-play",
 		components: subs([AppGame, AppTouch]),
-		data: () => ({
-			gridHeight: 22,
-			gridWidth: 10,
-			grid: emptyGrid(22)(10),
-		}),
+		methods: mapActions(["changeGridCell"]),
 		created () {
-			this.grid[0][0] = 1;
-			this.grid[2][0] = 2;
-			this.grid[3][0] = 3;
-			this.grid[21][0] = 3;
+			this.changeGridCell({i: 0, j: 0, value: 1});
+			this.changeGridCell({i: 2, j: 0, value: 2});
+			this.changeGridCell({i: 3, j: 0, value: 3});
+			this.changeGridCell({i: 21, j: 1, value: 3});
 		},
 	};
 </script>

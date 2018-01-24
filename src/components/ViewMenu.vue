@@ -21,9 +21,7 @@
 </template>
 
 <script>
-	export default {
-		name: "view-menu",
-	};
+	export default {name: "view-menu"};
 </script>
 
 <style lang="scss" scoped>
@@ -36,6 +34,7 @@
 		header {
 			@include flex(col);
 			flex: 2 2 0;
+			
 			h1 {
 				flex: 0 0 auto;
 				font-size: 4rem;

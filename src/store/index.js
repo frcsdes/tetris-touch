@@ -1,20 +1,13 @@
 import Vue from "vue";
 import Vuex from "vuex";
+import state from "./state";
+import actions from "./actions";
+import mutations from "./mutations";
 
 Vue.use(Vuex);
 
 export default new Vuex.Store({
-	state: {
-		recognizedShape: "",
-	},
-	actions: {
-		changeRecognizedShape (context, payload) {
-			context.commit("changeRecognizedShape", payload);
-		},
-	},
-	mutations: {
-		changeRecognizedShape (state, payload) {
-			state.recognizedShape = payload;
-		},
-	},
+	state,
+	actions,
+	mutations,
 });
