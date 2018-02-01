@@ -12,13 +12,8 @@
 				</router-link>
 			</li>
 			<li>
-				<router-link to="/calibration" tag="a">
-					<app-button class="button" label="Calibration"/>
-				</router-link>
-			</li>
-			<li>
 				<router-link to="/play" tag="a">
-					<app-button class="button" label="New Game" :disabled="!calibrated"/>
+					<app-button class="button" label="New Game"/>
 				</router-link>
 			</li>
 		</ul>

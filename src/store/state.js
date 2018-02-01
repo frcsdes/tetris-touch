@@ -4,7 +4,7 @@ import { baseShapes, colorScheme } from "@/assets/js/constants";
 export default {
 	colorScheme,
 	baseShapes,
-	calibrated: false,
+	calibrated: true,
 	headerLength: 6,
 	gridHeight: 22,
 	gridWidth: 10,
@@ -16,7 +16,7 @@ export default {
 	cleanTouch: false,
 	renderingTouch: false,
 	recognizedShape: "",
+	recognizedShapeX: 0,
+	recognizedShapeY: 0,
 	learntShapeId: 0,
-	newShape: "",
-	touchMode: 0,
 };

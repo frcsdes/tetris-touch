@@ -1,5 +1,5 @@
 <template>
-	<main @dragstart.prevent>
+	<main @dragstart.prevent @contextmenu.prevent>
 		<router-view/>
 	</main>
 </template>

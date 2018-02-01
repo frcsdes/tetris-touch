@@ -13,17 +13,26 @@
 
 <script>
 	import { props } from "@/assets/js/v_dash";
+	import { rotateShape } from "@/assets/js/utils";
 	import { baseShapes } from "@/assets/js/constants";
+	import { split } from "lodash";
 
 	export default {
 		name: "app-game-shape",
 		props: props([
-			["required", String, "letter"],
+			["required", String, "code"],
 			["optional", Boolean, "centered", false],
 			["optional", Number, "pattern", null],
 		]),
 		computed: {
-			shape () { return (baseShapes[this.letter] || [[]]); },
+			shape () {
+				const [base, rotation] = split(this.code, "@", 2);
+				const baseShape = baseShapes[base] || [[]];
+
+				return rotation
+					? rotateShape(baseShape)(rotation)
+					: baseShape;
+			},
 			height () { return this.shape.length; },
 			width () { return this.shape[0].length; },
 		},

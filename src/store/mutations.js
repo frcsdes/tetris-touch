@@ -1,6 +1,14 @@
 import { setNth } from "@/assets/js/utils";
 
 export default {
+	changeGrid (state, payload) {
+		state.grid = payload;
+	},
+
+	changeRecognizedShapeY (state, payload) {
+		state.recognizedShapeY = payload;
+	},
+
 	changeGridCell (state, {i, j, value}) {
 		state.grid = setNth(state.grid)(i)(j)(value);
 	},
@@ -39,10 +47,6 @@ export default {
 
 	changeLearntShapeId (state, payload) {
 		state.learntShapeId = payload;
-	},
-
-	changeTouchMode (state, payload) {
-		state.touchMode = payload;
 	},
 
 	changeCalibrated (state, payload) {

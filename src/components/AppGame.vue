@@ -10,7 +10,10 @@
 			meetOrSlice="meet"
 		>
 			<app-game-defs/>
-			<app-game-shape :letter="recognizedShape"/>
+			<app-game-shape
+				:code="recognizedShape"
+				:transform="`translate(0, ${recognizedShapeY})`"
+			/>
 
 			<g :transform="`translate(0, ${headerLength})`">
 				<g v-for="(row, i) in gridHeight" :key="i">
@@ -25,25 +28,25 @@
 
 		<app-touch class="bottom-layer"/>
 
-		<figcaption class="top-layer">
+		<figcaption>
 			<h2>Score</h2>
 			<span>3492</span>
 
-			<h2>Next</h2>
-			<span>2<small>x</small>3</span>
+			<h2>Streak</h2>
+			<span>3</span>
 
-			<h2>{{ recognizedShape }}</h2>
-
-			<router-link to="/" tag="a">Back</router-link>
+			<router-link to="/" tag="a" class="top-layer">
+				Back
+			</router-link>
 		</figcaption>
 	</figure>
 </template>
 
 <script>
+	import { mapState } from "vuex";
 	import AppGameDefs from "./AppGameDefs";
 	import AppGameShape from "./AppGameShape";
 	import AppTouch from "./AppTouch";
-	import { mapState } from "vuex";
 	import { subs } from "@/assets/js/v_dash";
 
 	export default {
@@ -51,7 +54,7 @@
 		components: subs([AppGameDefs, AppGameShape, AppTouch]),
 		computed: mapState([
 			"gridWidth", "gridHeight", "grid",
-			"headerLength", "recognizedShape",
+			"headerLength", "recognizedShape", "recognizedShapeY",
 		]),
 };
 </script>
@@ -65,13 +68,14 @@
 	figure {
 		@include flex(row);
 		@include full();
+		background-color: $primary;
 		position: absolute;
 
 		aside, svg, figcaption { height: 100vh; }
-		aside, figcaption { background-color: $primary; }
 		aside { flex: 0 0 1rem; }
 
 		svg {
+			background-color: $primary-light;
 			border: $drop solid $primary-dark;
 			border-width: 0 $drop;
 			flex: 0 0 auto;

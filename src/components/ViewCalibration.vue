@@ -1,19 +1,19 @@
 <template>
 	<section>
-		<figure v-show="!calibrated">
+		<figure v-if="!calibrated">
 			<figcaption>
 				Draw the "{{ learntShape }}" shape with a gesture on your screen
 			</figcaption>
 			<app-game-svg viewBox="-2 -2 4 4">
-				<app-game-shape :letter="learntShape" :pattern="1" centered/>
+				<app-game-shape :code="learntShape" :pattern="1" centered/>
 			</app-game-svg>
 		</figure>
 
-		<big v-show="calibrated">Calibration<br>complete!</big>
+		<big v-if="calibrated">Tutorial<br>complete!</big>
 
 		<app-touch v-if="!calibrated"/>
 
-		<router-link to="/play" tag="a" v-show="calibrated">
+		<router-link to="/play" tag="a" v-if="calibrated">
 			<app-button class="button" label="Play"/>
 		</router-link>
 	</section>
@@ -34,11 +34,8 @@
 			...mapState(["baseShapes", "calibrated"]),
 			...mapGetters(["baseShapesKeys", "learntShape"]),
 		},
-		methods: mapActions(["changeTouchMode", "resetCalibration"]),
-		created () {
-			this.changeTouchMode(0);
-			this.resetCalibration();
-		},
+		methods: mapActions(["resetCalibration"]),
+		created () { this.resetCalibration(); },
 	};
 </script>
 

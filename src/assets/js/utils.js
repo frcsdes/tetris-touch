@@ -1,10 +1,9 @@
-import { cloneDeep, fill, map } from "lodash";
-import { Point } from "./one-dollar-recognizer";
+import { cloneDeep, fill, forEach, map } from "lodash";
 
 /**
  * Creates a new grid of size height x with filled with 0
- * @param {Number} height The height if the grid
- * @param {Number} width The width if the grid
+ * @param {Number} height The height if the grid (rows count)
+ * @param {Number} width The width if the grid (columns count)
  * @return {Array} The new grid
  */
 export const emptyGrid = (height) => (width) =>
@@ -27,10 +26,42 @@ export const setNth = (grid) => (i) => (j) => (value) => {
 	return newGrid;
 };
 
-/**
- * Converts an array of coordinates to an array of Points
- * @param {Array} coordinates The array of [x, y] coordinates
- * @return {Array} The corresponding Points array
- */
-export const arrayToPoints = (coordinates) =>
-	map(coordinates, ([x, y]) => new Point(x, y));
+export const rotateTouchArray = (stroke) => (angle) => {
+	const c = Math.cos(Math.PI * angle / 180);
+	const s = Math.sin(Math.PI * angle / 180);
+	return map(stroke, ([x, y]) => [
+		x * c - y * s,
+		x * s + y * c,
+	]);
+};
+
+const rotateShapeOnceClockwise = (shape) => {
+	// Names inverted to match the rotated shape
+	const colCount = shape.length;
+	const rowCount = shape[0].length;
+	let rotated = emptyGrid(rowCount)(colCount);
+
+	forEach(rotated, (row, i) =>
+		forEach(row, (col, j) => {
+			rotated[i][j] = shape[colCount - 1 - j][i];
+		})
+	);
+
+	return rotated;
+};
+
+export const rotateShape = (shape) => (rotation) => {
+	// Names inverted to match the rotated shape
+	const codeToIterations = {
+		"000": 0,
+		"090": 1,
+		"180": 2,
+		"270": 3,
+	};
+
+	let rotated = shape;
+	for (let i = 0; i < codeToIterations[rotation]; i++)
+		rotated = rotateShapeOnceClockwise(rotated);
+
+	return rotated;
+};

@@ -12,14 +12,8 @@
 	export default {
 		name: "view-play",
 		components: subs([AppGame]),
-		methods: mapActions(["changeGridCell", "changeTouchMode"]),
-		created () {
-			this.changeTouchMode(1);
-			this.changeGridCell({i: 0, j: 0, value: 1});
-			this.changeGridCell({i: 2, j: 0, value: 2});
-			this.changeGridCell({i: 3, j: 0, value: 3});
-			this.changeGridCell({i: 21, j: 1, value: 3});
-		},
+		methods: mapActions(["resetGame"]),
+		created () { this.resetGame(); },
 	};
 </script>
 

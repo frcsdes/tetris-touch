@@ -1,6 +1,6 @@
-import {
-	addGesture, deleteGestures, recognizeGesture,
-} from "@/assets/js/recognizer";
+import { recognizeGesture } from "@/assets/js/recognizer";
+import { emptyGrid } from "@/assets/js/utils";
+import { size, split } from "lodash";
 
 export default {
 	handleTouchMove ({state, commit}, event) {
@@ -10,26 +10,17 @@ export default {
 		commit("pushTouchArray", [touch.clientX, touch.clientY]);
 	},
 
-	handleTouchEnd ({state, getters, dispatch, commit}) {
-		if (state.touchMode === 0) {
-			addGesture(getters.learntShape, state.touchArray);
-			commit("changeLearntShapeId", state.learntShapeId + 1);
-
-			if (state.learntShapeId === getters.baseShapesKeys.length)
-				dispatch("finishCalibration");
-		}
-
-		else if (state.touchMode === 1) {
-			const shape = recognizeGesture(state.touchArray);
-			commit("changeRecognizedShape", shape);
-			console.log("Recognized action", shape);
-		}
-
+	handleTouchEnd ({state, commit, dispatch}) {
+		const shape = recognizeGesture(state.touchArray);
+		commit("changeRecognizedShape", shape);
 		commit("changeTouching", false);
 		commit("changeNewTouch", null);
 		commit("changeLastTouch", null);
 		commit("resetTouchArray");
 		commit("changeCleanTouch", true);
+
+		if (!state.calibrated)
+			dispatch("nextCalibration");
 	},
 
 	confirmCleanTouch({commit}) {
@@ -45,22 +36,35 @@ export default {
 		commit("changeRenderingTouch", false);
 	},
 
+	resetGame ({commit}) {
+		commit("changeGrid", emptyGrid(22)(10));
+		commit("changeRecognizedShape", "");
+	},
+
+	changeRecognizedShapeY ({commit}, payload) {
+		commit("changeRecognizedShapeY", payload);
+	},
+
+	incrementRecognizedShapeY ({state, commit}, payload) {
+		commit("changeRecognizedShapeY", state.recognizedShapeY + payload);
+	},
+
 	changeGridCell ({commit}, payload) {
 		commit("changeGridCell", payload);
 	},
 
-	changeRecognizedShape ({commit}, payload) {
-		commit("changeRecognizedShape", payload);
-	},
-
-	changeTouchMode ({commit}, payload) {
-		commit("changeTouchMode", payload);
-	},
-
 	resetCalibration ({commit}) {
-		deleteGestures();
 		commit("changeCalibrated", false);
 		commit("changeLearntShapeId", 0);
+	},
+
+	nextCalibration ({state, getters, commit, dispatch}) {
+		if (split(state.recognizedShape, "@", 1)[0] === getters.learntShape) {
+			const nextShapeId = state.learntShapeId + 1;
+			nextShapeId === size(state.baseShapes)
+				? dispatch("finishCalibration")
+				: commit("changeLearntShapeId", nextShapeId);
+		}
 	},
 
 	finishCalibration ({commit}) {
