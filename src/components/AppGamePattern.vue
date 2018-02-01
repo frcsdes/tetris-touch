@@ -7,7 +7,7 @@
 <script>
 	import { props } from "@/assets/js/v_dash";
 	export default {
-		name: "app-game-defs-pattern",
+		name: "app-game-pattern",
 		props: props([["required", String, "id"]]),
 	};
 </script>

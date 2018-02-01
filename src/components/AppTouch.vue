@@ -8,12 +8,11 @@
 
 <script>
 	import { mapState, mapActions } from "vuex";
-	import { colorScheme } from "@/assets/js/utils";
 
 	export default {
 		name: "app-touch",
 		computed: mapState([
-			"newTouch", "lastTouch", "cleanTouch", "renderingTouch",
+			"colorScheme", "newTouch", "lastTouch", "cleanTouch", "renderingTouch",
 		]),
 		methods: {
 			...mapActions([
@@ -40,7 +39,7 @@
 					context.lineTo(newX, newY);
 					context.lineWidth = 8;
 					context.lineCap = "round";
-					context.strokeStyle = colorScheme.primaryDark;
+					context.strokeStyle = this.colorScheme.primaryDark;
 					context.stroke();
 					context.closePath();
 				}

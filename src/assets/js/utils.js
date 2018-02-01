@@ -1,4 +1,5 @@
 import { cloneDeep, fill, map } from "lodash";
+import { Point } from "./one-dollar-recognizer";
 
 /**
  * Creates a new grid of size height x with filled with 0
@@ -27,12 +28,9 @@ export const setNth = (grid) => (i) => (j) => (value) => {
 };
 
 /**
- * Import the color scheme coresponding to the CSS
- * @return {Object} The color scheme
+ * Converts an array of coordinates to an array of Points
+ * @param {Array} coordinates The array of [x, y] coordinates
+ * @return {Array} The corresponding Points array
  */
-export const colorScheme = {
-	primary: "#414C3C",
-	primaryWhite: "#C1CBBD",
-	primaryLight: "#939E8E",
-	primaryDark: "#262D23",
-};
+export const arrayToPoints = (coordinates) =>
+	map(coordinates, ([x, y]) => new Point(x, y));

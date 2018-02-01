@@ -1,21 +1,20 @@
 <template>
 	<section>
 		<app-game/>
-		<app-touch/>
 	</section>
 </template>
 
 <script>
-	import AppGame from "./AppGame";
-	import AppTouch from "./AppTouch";
 	import { mapActions } from "vuex";
+	import AppGame from "./AppGame";
 	import { subs } from "@/assets/js/v_dash";
 
 	export default {
 		name: "view-play",
-		components: subs([AppGame, AppTouch]),
-		methods: mapActions(["changeGridCell"]),
+		components: subs([AppGame]),
+		methods: mapActions(["changeGridCell", "changeTouchMode"]),
 		created () {
+			this.changeTouchMode(1);
 			this.changeGridCell({i: 0, j: 0, value: 1});
 			this.changeGridCell({i: 2, j: 0, value: 2});
 			this.changeGridCell({i: 3, j: 0, value: 3});

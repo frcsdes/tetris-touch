@@ -36,4 +36,16 @@ export default {
 	changeRecognizedShape (state, payload) {
 		state.recognizedShape = payload;
 	},
+
+	changeLearntShapeId (state, payload) {
+		state.learntShapeId = payload;
+	},
+
+	changeTouchMode (state, payload) {
+		state.touchMode = payload;
+	},
+
+	changeCalibrated (state, payload) {
+		state.calibrated = payload;
+	},
 };

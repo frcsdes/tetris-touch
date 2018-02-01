@@ -8,12 +8,17 @@
 		<ul>
 			<li>
 				<router-link to="/tutorial" tag="a">
-					Tutorial
+					<app-button class="button" label="Tutorial"/>
+				</router-link>
+			</li>
+			<li>
+				<router-link to="/calibration" tag="a">
+					<app-button class="button" label="Calibration"/>
 				</router-link>
 			</li>
 			<li>
 				<router-link to="/play" tag="a">
-					New Game
+					<app-button class="button" label="New Game" :disabled="!calibrated"/>
 				</router-link>
 			</li>
 		</ul>
@@ -21,7 +26,15 @@
 </template>
 
 <script>
-	export default {name: "view-menu"};
+	import { mapState } from "vuex";
+	import AppButton from "./AppButton";
+	import { subs } from "@/assets/js/v_dash";
+
+	export default {
+		name: "view-menu",
+		components: subs([AppButton]),
+		computed: mapState(["calibrated"]),
+	};
 </script>
 
 <style lang="scss" scoped>
@@ -49,21 +62,15 @@
 
 			li {
 				@include flex(row);
-				background-color: $primary-light;
-				border: 0.5rem solid $primary;
-				box-shadow: $drop $drop 0 $primary-dark;
 				flex: 0 0 auto;
+				height: 6rem;
 				margin-bottom: 1rem + $drop;
-				overflow: hidden;
 				width: 100%;
 
 				a {
-					@include flex(row);
 					flex: 1 1 0;
-					font-size: 2rem;
-					height: 5rem;
-					padding: 0 1rem 1rem;
-					&:active { color: $primary-dark; }
+					height: 100%;
+					.button { height: 100%; }
 				}
 			}
 		}

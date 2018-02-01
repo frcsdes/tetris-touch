@@ -1,4 +1,6 @@
-import { recognizeGesture } from "@/assets/js/recognizer";
+import {
+	addGesture, deleteGestures, recognizeGesture,
+} from "@/assets/js/recognizer";
 
 export default {
 	handleTouchMove ({state, commit}, event) {
@@ -8,15 +10,26 @@ export default {
 		commit("pushTouchArray", [touch.clientX, touch.clientY]);
 	},
 
-	handleTouchEnd ({state, commit}) {
-		const shape = recognizeGesture(state.touchArray);
-		console.log(shape);
+	handleTouchEnd ({state, getters, dispatch, commit}) {
+		if (state.touchMode === 0) {
+			addGesture(getters.learntShape, state.touchArray);
+			commit("changeLearntShapeId", state.learntShapeId + 1);
+
+			if (state.learntShapeId === getters.baseShapesKeys.length)
+				dispatch("finishCalibration");
+		}
+
+		else if (state.touchMode === 1) {
+			const shape = recognizeGesture(state.touchArray);
+			commit("changeRecognizedShape", shape);
+			console.log("Recognized action", shape);
+		}
+
 		commit("changeTouching", false);
 		commit("changeNewTouch", null);
 		commit("changeLastTouch", null);
 		commit("resetTouchArray");
 		commit("changeCleanTouch", true);
-		commit("changeRecognizedShape", shape);
 	},
 
 	confirmCleanTouch({commit}) {
@@ -38,5 +51,19 @@ export default {
 
 	changeRecognizedShape ({commit}, payload) {
 		commit("changeRecognizedShape", payload);
+	},
+
+	changeTouchMode ({commit}, payload) {
+		commit("changeTouchMode", payload);
+	},
+
+	resetCalibration ({commit}) {
+		deleteGestures();
+		commit("changeCalibrated", false);
+		commit("changeLearntShapeId", 0);
+	},
+
+	finishCalibration ({commit}) {
+		commit("changeCalibrated", true);
 	},
 };
