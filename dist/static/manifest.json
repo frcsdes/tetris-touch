@@ -1,0 +1,32 @@
+{
+  "short_name": "Tetris Touch",
+  "name": "A touch-based Tetris variant",
+  "description": "A touch-based Tetris variant",
+  "start_url": "/#/",
+  "display": "fullscreen",
+  "background_color": "#939E8E",
+  "theme_color": "#414C3C",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "./icons-android/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "./icons-android/icon-256x256.png",
+      "sizes": "256x256",
+      "type": "image/png"
+    },
+    {
+      "src": "./icons-android/icon-384x384.png",
+      "sizes": "384x384",
+      "type": "image/png"
+    },
+    {
+      "src": "./icons-android/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
