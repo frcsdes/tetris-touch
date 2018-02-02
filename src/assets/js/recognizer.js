@@ -1,4 +1,4 @@
-import { chunk, map, maxBy, minBy, sum, sumBy } from "lodash";
+import { chunk, includes, map, maxBy, minBy, sum, sumBy } from "lodash";
 import { shapePatterns } from "./constants";
 
 const constantSpeed = 4;
@@ -87,7 +87,26 @@ export const recognizeGesture = (stroke) => {
 
 	// Concatenate the chunk axes
 	const pattern = sum(map(maxBy(chunkAxisScores, "score").axisScore, "axis"));
+	const pattern3 = sum(map(chunkAxisScores[2].axisScore, "axis"));
 
-	console.log(pattern, shapePatterns[pattern]);
-	return shapePatterns[pattern] || "";
+	const ambiguousPatterns = [
+		"-x+y", "-y+x",
+		"-y-x", "+x+y",
+		"+x-y", "+y-x",
+		"+y+x", "-x-y",
+	];
+
+	// Give some feedback about the recognition
+	console.log(
+		"Result of the recognition\n",
+		`| Best match: ${pattern}\n`,
+		`| Shape: ${shapePatterns[pattern]}\n`,
+		`| Ambiguous: ${includes(ambiguousPatterns, pattern)}\n`,
+		`| Second best: ${pattern3}\n\n`
+	);
+
+	return (includes(ambiguousPatterns, pattern)
+		? shapePatterns[pattern3]
+		: shapePatterns[pattern]) ||
+		"";
 };
