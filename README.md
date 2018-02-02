@@ -22,8 +22,8 @@ For a detailed explanation on how things work, check out the [guide](http://vuej
 - `build` bundle build instructions for webpack and such
 - `config` environment configuration files
 - `src` main folder for the application code
-	- `src/assets` bundled assets including images, fonts, CSS and JS code
+	- `src/assets` bundled assets including images, fonts, CSS and JS code - **recognizer.js** is here
 	- `src/components` reusable Vue components and single-instance views
 	- `src/router` the vue-router instance for client-side navigation
 	- `src/store` the vuex store for state management
-- `static` unbundled static ressources
+- `static` unbundled static ressources (favicons, etc.)
