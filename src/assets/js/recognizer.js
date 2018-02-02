@@ -1,7 +1,7 @@
 import { chunk, map, maxBy, minBy, sum, sumBy } from "lodash";
 import { shapePatterns } from "./constants";
 
-const constantSpeed = 1;
+const constantSpeed = 4;
 
 /**
  * Returns the offset of a set of values
@@ -12,16 +12,19 @@ const chunkOffset = (values) => values[values.length - 1] - values[0];
 
 // @todo: fix
 const toConstantSpeed = (chunk) => {
-	const offset = Math.abs(chunkOffset(chunk));
-	const allocatedSamples = Math.max(2, Math.round(offset / constantSpeed));
+	if (chunk.length === 0)
+		return [];
 
-	const newChunk = map(
-		new Array(allocatedSamples),
-		(_, i) => chunk[Math.floor(
-			(chunk.length - 1) * i /
-			(allocatedSamples - 1)
-		)]
-	);
+	let newChunk = [chunk[0]];
+	let lastPushed = chunk[0];
+
+	for (let i = 1; i < chunk.length; i++) {
+		const value = chunk[i];
+		if (Math.abs(value - lastPushed) >= constantSpeed) {
+			newChunk.push(value);
+			lastPushed = value;
+		}
+	}
 
 	return newChunk;
 };
@@ -31,7 +34,7 @@ const toConstantSpeed = (chunk) => {
  * @param {Array} chunk The array of chunk coordinates
  * @return {Object} The axis and the associated score
  */
-const matchChunk = (chunk) => {
+const chunkAxisScore = (chunk) => {
 	// Separate X and Y coordinates
 	const chunkX = map(chunk, 0);
 	const chunkY = map(chunk, 1);
@@ -42,9 +45,9 @@ const matchChunk = (chunk) => {
 		{axis: "y", offset: chunkOffset(chunkY), absOffset: Math.abs(chunkOffset(chunkY))},
 	];
 
-	// Find the axis minimizing (maximizing) the offset
-	const minAxisOffset = minBy(axisOffsets, "absOffset");
+	// Find the main / secondary axis: it maximizes / minimizes the offset
 	const maxAxisOffset = maxBy(axisOffsets, "absOffset");
+	const minAxisOffset = minBy(axisOffsets, "absOffset");
 
 	// Compute the score:
 	// - the main axis should have a big offset
@@ -64,8 +67,7 @@ const matchChunk = (chunk) => {
  */
 const divideStroke = (stroke) => (count) => {
 	const chunks = chunk(stroke, Math.ceil(stroke.length / count));
-	console.log("\n");
-	return map(chunks, matchChunk);
+	return map(chunks, chunkAxisScore);
 };
 
 /**

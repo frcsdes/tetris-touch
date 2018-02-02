@@ -1,4 +1,5 @@
-import { cloneDeep, fill, forEach, map } from "lodash";
+import { cloneDeep, fill, forEach, map, split } from "lodash";
+import { baseShapes } from "./constants";
 
 /**
  * Creates a new grid of size height x with filled with 0
@@ -25,6 +26,13 @@ export const setNth = (grid) => (i) => (j) => (value) => {
 	newGrid[i][j] = value;
 	return newGrid;
 };
+
+/**
+ * Retrieve the base prefix from a shape code
+ * @param {String} code The shape code
+ * @return {String} The shape's base
+ */
+export const shapePrefix = (code) => split(code, "@", 1)[0];
 
 export const rotateTouchArray = (stroke) => (angle) => {
 	const c = Math.cos(Math.PI * angle / 180);
@@ -64,4 +72,13 @@ export const rotateShape = (shape) => (rotation) => {
 		rotated = rotateShapeOnceClockwise(rotated);
 
 	return rotated;
+};
+
+export const derivedShape = (code) => {
+	const [base, rotation] = split(code, "@", 2);
+	const baseShape = baseShapes[base] || [[]];
+
+	return rotation
+		? rotateShape(baseShape)(rotation)
+		: baseShape;
 };

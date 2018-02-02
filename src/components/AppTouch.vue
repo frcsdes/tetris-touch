@@ -12,7 +12,7 @@
 	export default {
 		name: "app-touch",
 		computed: mapState([
-			"colorScheme", "newTouch", "lastTouch", "cleanTouch", "renderingTouch",
+			"colorScheme", "cleanTouch", "renderingTouch", "touchArray",
 		]),
 		methods: {
 			...mapActions([
@@ -28,15 +28,16 @@
 				if (canvas.height !== height) canvas.height = height;
 				if (canvas.width !== width) canvas.width = width;
 
-				if (this.newTouch && this.lastTouch) {
-					const newX = this.newTouch.clientX;
-					const newY = this.newTouch.clientY;
-					const lastX = this.lastTouch.clientX;
-					const lastY = this.lastTouch.clientY;
-
+				if (this.touchArray.length > 0) {
 					context.beginPath();
-					context.moveTo(lastX, lastY);
-					context.lineTo(newX, newY);
+					const [firstX, firstY] = this.touchArray[0];
+					context.moveTo(firstX, firstY);
+
+					for (let i = 1; i < this.touchArray.length; i++) {
+						const [touchX, touchY] = this.touchArray[i];
+						context.lineTo(touchX, touchY);
+					}
+
 					context.lineWidth = 8;
 					context.lineCap = "round";
 					context.strokeStyle = this.colorScheme.primaryDark;

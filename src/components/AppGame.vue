@@ -10,10 +10,10 @@
 			meetOrSlice="meet"
 		>
 			<app-game-defs/>
-			<app-game-shape
-				:code="recognizedShape"
-				:transform="`translate(0, ${recognizedShapeY})`"
-			/>
+			<g :transform="`translate(${recognizedShapeX}, ${recognizedShapeY})`">
+				<app-game-placeholder/>
+				<app-game-shape :code="recognizedShape"/>
+			</g>
 
 			<g :transform="`translate(0, ${headerLength})`">
 				<g v-for="(row, i) in gridHeight" :key="i">
@@ -26,14 +26,14 @@
 			</g>
 		</svg>
 
-		<app-touch class="bottom-layer"/>
+		<app-touch class="bottom-layer" @touchend.prevent="handleTap"/>
 
 		<figcaption>
 			<h2>Score</h2>
-			<span>3492</span>
+			<span>{{ score }}</span>
 
 			<h2>Streak</h2>
-			<span>3</span>
+			<span>+{{ streak }}</span>
 
 			<router-link to="/" tag="a" class="top-layer">
 				Back
@@ -43,19 +43,25 @@
 </template>
 
 <script>
-	import { mapState } from "vuex";
+	import { mapState, mapGetters, mapActions } from "vuex";
 	import AppGameDefs from "./AppGameDefs";
+	import AppGamePlaceholder from "./AppGameShape";
 	import AppGameShape from "./AppGameShape";
 	import AppTouch from "./AppTouch";
 	import { subs } from "@/assets/js/v_dash";
 
 	export default {
 		name: "app-game",
-		components: subs([AppGameDefs, AppGameShape, AppTouch]),
-		computed: mapState([
-			"gridWidth", "gridHeight", "grid",
-			"headerLength", "recognizedShape", "recognizedShapeY",
-		]),
+		components: subs([AppGameDefs, AppGamePlaceholder, AppGameShape, AppTouch]),
+		computed: {
+			...mapState([
+				"gridWidth", "gridHeight", "grid", "score",
+				"headerLength", "recognizedShape",
+				"recognizedShapeX", "recognizedShapeY",
+			]),
+			...mapGetters(["streak"]),
+		},
+		methods: mapActions(["handleTap"]),
 };
 </script>
 
@@ -95,6 +101,9 @@
 			span {
 				color: $primary-white;
 				font-size: 1.5rem;
+				line-height: 2rem;
+				max-width: 100%;
+				word-break: break-all;
 				small { font-size: 1rem; }
 			}
 			h2 + span { margin-top: 0.4rem; }

@@ -40,21 +40,25 @@
 			<app-game-svg viewBox="0 0 40 14" class="small-font">
 				<g>
 					<app-game-shape
-						v-for="(_, i) in 7" :key="i" code="I"
-						:pattern="3" :transform="`translate(${i * 3}, 0)`"
+						v-for="(_, i) in 4" :key="i" code="I"
+						:pattern="3" :transform="`translate(${i * 2}, 0)`"
 					/>
-					<text transform="translate(30, 4)">= 10</text>
+					<app-game-shape
+						v-for="(_, i) in 3" :key="i + 4" code="I@090"
+						:pattern="3" :transform="`translate(${i * 5 + 4 * 2}, 1.5)`"
+					/>
+					<text transform="translate(30, 4)">= 70</text>
 				</g>
 				<g transform="translate(0, 5)">
 					<app-game-shape
 						v-for="(_, i) in 3" :key="i" code="I"
-						:pattern="3" :transform="`translate(${i * 3}, 0)`"
+						:pattern="3" :transform="`translate(${i * 2}, 0)`"
 					/>
 					<app-game-shape
-						v-for="(_, i) in 4" :key="i + 3 * 3" code="Z"
-						:pattern="3" :transform="`translate(${i * 4 + 3 * 3}, 1)`"
+						v-for="(_, i) in 4" :key="i + 3" code="Z"
+						:pattern="3" :transform="`translate(${i * 4 + 3 * 2}, 1)`"
 					/>
-					<text transform="translate(30, 4)">= 20</text>
+					<text transform="translate(30, 4)">= 110</text>
 				</g>
 				<g transform="translate(0, 10)">
 					<app-game-shape code="S"	:pattern="3" transform="translate(0, 1)"/>
@@ -64,7 +68,7 @@
 					<app-game-shape code="I"	:pattern="3" transform="translate(14, 0)"/>
 					<app-game-shape code="Z"	:pattern="3" transform="translate(16, 1)"/>
 					<app-game-shape code="T"	:pattern="3" transform="translate(20, 1)"/>
-					<text transform="translate(30, 4)">= 70</text>
+					<text transform="translate(30, 4)">= 260</text>
 				</g>
 			</app-game-svg>
 		</figure>
@@ -108,7 +112,7 @@
 			figcaption {
 				font-size: 0.9rem;
 				line-height: 2em;
-				margin-bottom: 2rem;
+				margin-bottom: 1.3rem;
 				text-align: center;
 			}
 

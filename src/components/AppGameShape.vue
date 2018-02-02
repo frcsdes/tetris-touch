@@ -13,9 +13,7 @@
 
 <script>
 	import { props } from "@/assets/js/v_dash";
-	import { rotateShape } from "@/assets/js/utils";
-	import { baseShapes } from "@/assets/js/constants";
-	import { split } from "lodash";
+	import { derivedShape } from "@/assets/js/utils";
 
 	export default {
 		name: "app-game-shape",
@@ -25,14 +23,7 @@
 			["optional", Number, "pattern", null],
 		]),
 		computed: {
-			shape () {
-				const [base, rotation] = split(this.code, "@", 2);
-				const baseShape = baseShapes[base] || [[]];
-
-				return rotation
-					? rotateShape(baseShape)(rotation)
-					: baseShape;
-			},
+			shape () { return derivedShape(this.code); },
 			height () { return this.shape.length; },
 			width () { return this.shape[0].length; },
 		},

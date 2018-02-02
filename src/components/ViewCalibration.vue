@@ -1,21 +1,28 @@
 <template>
 	<section>
-		<figure v-if="!calibrated">
-			<figcaption>
-				Draw the "{{ learntShape }}" shape with a gesture on your screen
-			</figcaption>
-			<app-game-svg viewBox="-2 -2 4 4">
-				<app-game-shape :code="learntShape" :pattern="1" centered/>
-			</app-game-svg>
-		</figure>
+		<template v-if="!calibrated && doubleTapped">
+			<figure>
+				<figcaption>
+					Draw the "{{ learntShape }}" shape with a gesture on your screen
+				</figcaption>
+				<app-game-svg viewBox="-2 -2 4 4">
+					<app-game-shape :code="learntShape" :pattern="1" centered/>
+				</app-game-svg>
+			</figure>
+			<app-touch/>
+		</template>
 
-		<big v-if="calibrated">Tutorial<br>complete!</big>
+		<template v-if="calibrated && !doubleTapped">
+			<big>Double tap to teleport a block down</big>
+			<div id="double-tap-zone" @touchend.prevent="handleTap"></div>
+		</template>
 
-		<app-touch v-if="!calibrated"/>
-
-		<router-link to="/play" tag="a" v-if="calibrated">
-			<app-button class="button" label="Play"/>
-		</router-link>
+		<template v-if="calibrated && doubleTapped">
+			<big>Tutorial<br>complete!</big>
+			<router-link to="/play" tag="a" v-if="calibrated">
+				<app-button class="button" label="Play"/>
+			</router-link>
+		</template>
 	</section>
 </template>
 
@@ -31,10 +38,10 @@
 		name: "view-calibration",
 		components: subs([AppGameSvg, AppGameShape, AppTouch, AppButton]),
 		computed: {
-			...mapState(["baseShapes", "calibrated"]),
+			...mapState(["baseShapes", "calibrated", "doubleTapped"]),
 			...mapGetters(["baseShapesKeys", "learntShape"]),
 		},
-		methods: mapActions(["resetCalibration"]),
+		methods: mapActions(["resetCalibration", "handleTap"]),
 		created () { this.resetCalibration(); },
 	};
 </script>
@@ -91,6 +98,10 @@
 					stroke-width: 0.1;
 				}
 			}
+		}
+
+		#double-tap-zone {
+			@include full();
 		}
 
 		.button {

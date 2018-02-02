@@ -41,6 +41,7 @@ export const baseShapes = {
 };
 
 // Permutations / rotations could be computed from the base shape but...
+// Hint: x ~ cos and y ~ sin, trigonometric formulas apply
 export const shapePatterns = {
 	"+y": "I@000",
 	"-x": "I@090",
@@ -102,6 +103,37 @@ export const shapePatterns = {
 	"+y-x+x": "T@180",
 	"-x+y-y": "T@270",
 
+	"+y+y+y+y": "I@000",
+	"-x-x-x-x": "I@090",
+	"-y-y-y-y": "I@000",
+	"+x+x+x+x": "I@090",
+
+	"-x-x+y-x": "S@000",
+	"-x+y+y-x": "S@000",
+	"-x+y-x-x": "S@000",
+	"-y-y-x-y": "S@090",
+	"-y-x-x-y": "S@090",
+	"-y-x-y-y": "S@090",
+	"+x+x-y+x": "S@000",
+	"+x-y-y+x": "S@000",
+	"+x-y+x+x": "S@000",
+	"+y+y+x+y": "S@090",
+	"+y+x+x+y": "S@090",
+	"+y+x+y+y": "S@090",
+
+	"-x-x-y-x": "Z@000",
+	"-x-y-y-x": "Z@000",
+	"-x-y-x-x": "Z@000",
+	"-y-y+x-y": "Z@090",
+	"-y+x+x-y": "Z@090",
+	"-y+x-y-y": "Z@090",
+	"+x+x+y+x": "Z@000",
+	"+x+y+y+x": "Z@000",
+	"+x+y+x+x": "Z@000",
+	"+y+y-x+y": "Z@090",
+	"+y-x-x+y": "Z@090",
+	"+y-x+y+y": "Z@090",
+
 	"+y+y+y+x": "L@000",
 	"-x-x-x+y": "L@090",
 	"-y-y-y-x": "L@180",
@@ -112,7 +144,7 @@ export const shapePatterns = {
 	"+y-x-x-x": "L@270",
 
 	"+y+y+y-x": "J@000",
-	"-x-x-x+y": "J@090",
+	"-x-x-x-y": "J@090",
 	"-y-y-y+x": "J@180",
 	"+x+x+x+y": "J@270",
 	"+x-y-y-y": "J@000",
@@ -120,15 +152,14 @@ export const shapePatterns = {
 	"-x+y+y+y": "J@180",
 	"-y-x-x-x": "J@270",
 
-	"+y+y+y+y": "I@000",
-	"-x-x-x-x": "I@090",
-	"-y-y-y-y": "I@000",
-	"+x+x+x+x": "I@090",
-
 	"+x+y-x-y": "O@000",
 	"+y-x-y+x": "O@090",
 	"-x-y+x+y": "O@180",
 	"-y+x+y-x": "O@270",
+	"-x+y+x-y": "O@000",
+	"-y-x+y+x": "O@090",
+	"+x-y-x+y": "O@180",
+	"+y+x-y-x": "O@270",
 
 	"+x+x-x+y": "T@000",
 	"+y+y-y-x": "T@090",
@@ -141,10 +172,10 @@ export const shapePatterns = {
 	"-y+x-x-x": "T@000",
 	"+x+y-y-y": "T@090",
 	"+y-x+x+x": "T@180",
-	"-x+y-y-y": "T@270",
-	"-y+x-x-x": "T@000",
-	"+x+y-y-y": "T@090",
-	"+y-x+x+x": "T@180",
+	"-x-y+y+y": "T@270",
+	"-y-x+x+x": "T@000",
+	"+x-y+y+y": "T@090",
+	"+y+x-x-x": "T@180",
 	"-x+y-y-y": "T@270",
 };
 
