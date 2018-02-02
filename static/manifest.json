@@ -2,7 +2,7 @@
   "short_name": "Tetris Touch",
   "name": "A touch-based Tetris variant",
   "description": "A touch-based Tetris variant",
-  "start_url": "/tetris-touch/index.html#/",
+  "start_url": "/#/",
   "display": "fullscreen",
   "background_color": "#939E8E",
   "theme_color": "#414C3C",
