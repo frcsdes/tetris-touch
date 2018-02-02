@@ -85,10 +85,12 @@ export const recognizeGesture = (stroke) => {
 		{count: 4, axisScore: divideStroke(stroke)(4), score: sumBy(divideStroke(stroke)(4), "score")},
 	];
 
-	// Concatenate the chunk axes
+	// Concatenate the best chunk axes
 	const pattern = sum(map(maxBy(chunkAxisScores, "score").axisScore, "axis"));
+	// Concatenate the second best chunk axes for ambiguous patterns
 	const pattern3 = sum(map(chunkAxisScores[2].axisScore, "axis"));
 
+	// Patterns which could be a J or an L
 	const ambiguousPatterns = [
 		"-x+y", "-y+x",
 		"-y-x", "+x+y",
@@ -105,6 +107,7 @@ export const recognizeGesture = (stroke) => {
 		`| Second best: ${pattern3}\n\n`
 	);
 
+	// If the pattern is ambiguous, refer to the second best match
 	return (includes(ambiguousPatterns, pattern)
 		? shapePatterns[pattern3]
 		: shapePatterns[pattern]) ||
