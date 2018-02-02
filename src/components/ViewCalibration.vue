@@ -14,7 +14,11 @@
 
 		<template v-if="calibrated && !doubleTapped">
 			<big>Double tap to teleport a block down</big>
-			<div id="double-tap-zone" @touchend.prevent="handleTap"></div>
+			<div
+				id="double-tap-zone"
+				@mousedown="handleTap"
+				@touchend.prevent="handleTap"
+			></div>
 		</template>
 
 		<template v-if="calibrated && doubleTapped">

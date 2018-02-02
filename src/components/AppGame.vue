@@ -1,5 +1,8 @@
 <template>
-	<figure>
+	<figure
+		@mousedown="handleTap"
+		@touchend.prevent="handleTap"
+	>
 		<aside></aside>
 		<svg
 			xmlns="http://www.w3.org/2000/svg"
@@ -26,7 +29,7 @@
 			</g>
 		</svg>
 
-		<app-touch class="bottom-layer" @touchend.prevent="handleTap"/>
+		<app-touch class="bottom-layer"/>
 
 		<figcaption>
 			<h2>Score</h2>
@@ -92,6 +95,7 @@
 			align-content: center;
 			color: $primary-light;
 			flex: 1 1 0;
+			max-width: 10rem;
 			padding: 1rem;
 
 			h2 {

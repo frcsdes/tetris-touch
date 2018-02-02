@@ -18,7 +18,9 @@ export default {
 	spaceWithGrid (state) {
 		const shape = derivedShape(state.recognizedShape);
 
+		// eslint-disable-next-line
 		const shapeLastRow = shape[shape.length - 1];
+		// eslint-disable-next-line
 		const firstNonEmptyRow = indexOf(map(state.grid, (row) => sum(row) > 0), true);
 
 		const shapeBottom = state.recognizedShapeY + shape.length;

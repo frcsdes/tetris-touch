@@ -12,8 +12,9 @@
 	export default {
 		name: "view-play",
 		components: subs([AppGame]),
-		methods: mapActions(["resetGame"]),
+		methods: mapActions(["resetGame", "stopPlaying"]),
 		created () { this.resetGame(); },
+		destroyed () { this.stopPlaying(); },
 	};
 </script>
 

@@ -7,27 +7,39 @@ export default {
 		const time = event.timeStamp;
 		time - state.lastTapped < 250
 			? state.doubleTapped
-				? dispatch("teleportRecognizedShape")
+				? dispatch("finishRecognizedShape")
 				: dispatch("finishDoubleTap")
 			: commit("changeLastTapped", time);
 	},
 
+	handleTouchStart ({commit}) {
+		commit("changeTouching", true);
+	},
+
 	handleTouchMove ({state, commit}, event) {
-		const touch = event.touches[0];
-		commit("changeNewTouch", touch);
-		commit("pushTouchArray", [touch.clientX, touch.clientY]);
+		if (state.touching) {
+			const touch = event.touches
+				? event.touches[0]
+				: {clientX: event.clientX, clientY: event.clientY};
+			commit("changeNewTouch", touch);
+			commit("pushTouchArray", [touch.clientX, touch.clientY]);
+		}
 	},
 
 	handleTouchEnd ({state, commit, dispatch}) {
 		const shape = recognizeGesture(state.touchArray);
-		commit("changeRecognizedShape", shape);
+		if (shape) {
+			commit("changeRecognizedShape", shape);
+			commit("changeNewTouch", null);
+
+			if (!state.calibrated)
+				dispatch("nextCalibration");
+		}
+
 		commit("changeTouching", false);
-		commit("changeNewTouch", null);
 		commit("resetTouchArray");
 		commit("changeCleanTouch", true);
 
-		if (!state.calibrated)
-			dispatch("nextCalibration");
 	},
 
 	resetCalibration ({commit}) {
@@ -57,6 +69,10 @@ export default {
 		commit("changeDoubleTapped", true);
 	},
 
+	stopPlaying ({commit}) {
+		commit("changePlaying", false);
+	},
+
 	confirmCleanTouch({commit}) {
 		commit("changeCleanTouch", false);
 	},
@@ -72,6 +88,8 @@ export default {
 
 	resetGame ({getters, commit, dispatch}) {
 		commit("changeGrid", emptyGrid(22)(10));
+		commit("changePlaying", true);
+		commit("changeScore", 0);
 		commit("resetLastShapes");
 		dispatch("resetRecognizedShape");
 
@@ -81,7 +99,9 @@ export default {
 		);
 	},
 
-	resetRecognizedShape ({getters, commit}) {
+	resetRecognizedShape ({state, getters, commit}) {
+		const randomX = random(0, state.gridWidth - 4);
+		commit("changeRecognizedShapeX", randomX);
 		commit("changeRecognizedShapeY", 0);
 
 		const shapeKeys = getters.baseShapesKeys;
@@ -104,14 +124,12 @@ export default {
 			? dispatch("finishRecognizedShape")
 			: commit("changeRecognizedShapeY", state.recognizedShapeY + 1);
 
-		window.setTimeout(
-			() => dispatch("incrementRecognizedShapeY"),
-			getters.timeout
-		);
-	},
-
-	teleportRecognizedShape () {
-		console.log("teleport");
+		if (state.playing) {
+			window.setTimeout(
+				() => dispatch("incrementRecognizedShapeY"),
+				getters.timeout
+			);
+		}
 	},
 
 	changeGridCell ({commit}, payload) {

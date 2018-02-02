@@ -11,6 +11,7 @@ const constantSpeed = 4;
 const chunkOffset = (values) => values[values.length - 1] - values[0];
 
 // @todo: fix
+// eslint-disable-next-line
 const toConstantSpeed = (chunk) => {
 	if (chunk.length === 0)
 		return [];

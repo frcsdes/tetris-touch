@@ -34,6 +34,12 @@ export const setNth = (grid) => (i) => (j) => (value) => {
  */
 export const shapePrefix = (code) => split(code, "@", 1)[0];
 
+/**
+ * Rotates a stroke by a given angle
+ * @param {Array} stroke The finger stroke
+ * @param {Number} angle The angle, in degrees
+ * @return {Array} The rotated stroke
+ */
 export const rotateTouchArray = (stroke) => (angle) => {
 	const c = Math.cos(Math.PI * angle / 180);
 	const s = Math.sin(Math.PI * angle / 180);
@@ -43,6 +49,11 @@ export const rotateTouchArray = (stroke) => (angle) => {
 	]);
 };
 
+/**
+ * Rotates a block shape by +90deg
+ * @param {Array} shape The block shape
+ * @return {Array} The rotated shape
+ */
 const rotateShapeOnceClockwise = (shape) => {
 	// Names inverted to match the rotated shape
 	const colCount = shape.length;
@@ -58,6 +69,12 @@ const rotateShapeOnceClockwise = (shape) => {
 	return rotated;
 };
 
+/**
+ * Rotates a stroke by a given angle
+ * @param {Array} stroke The finger stroke
+ * @param {Number} angle The angle, in degrees
+ * @return {Array} The rotated stroke
+ */
 export const rotateShape = (shape) => (rotation) => {
 	// Names inverted to match the rotated shape
 	const codeToIterations = {
@@ -74,6 +91,11 @@ export const rotateShape = (shape) => (rotation) => {
 	return rotated;
 };
 
+/**
+ * Apply a rotation to a base shape from the given code
+ * @param {String} code The derived shape code e.g. "S@180"
+ * @return {Array} The shape corresponding to the code
+ */
 export const derivedShape = (code) => {
 	const [base, rotation] = split(code, "@", 2);
 	const baseShape = baseShapes[base] || [[]];

@@ -24,6 +24,7 @@
 		color: $primary;
 		font-family: "Pixeled", Arial, sans-serif;
 		touch-action: manipulation;
+		user-select: none;
 		-moz-osx-font-smoothing: grayscale;
 		-webkit-font-smoothing: antialiased;
 		-webkit-overflow-scrolling: touch;

@@ -11,6 +11,7 @@ export default {
 	gridHeight: 22,
 	gridWidth: 10,
 	grid: emptyGrid(22)(10),
+	playing: false,
 	minTimeout: 10,
 	maxTimeout: 300,
 	score: 0,

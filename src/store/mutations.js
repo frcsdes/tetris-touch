@@ -18,12 +18,20 @@ export default {
 		state.grid = payload;
 	},
 
-	changeRecognizedShapeY (state, payload) {
-		state.recognizedShapeY = payload;
-	},
-
 	changeGridCell (state, {i, j, value}) {
 		state.grid = setNth(state.grid)(i)(j)(value);
+	},
+
+	changePlaying (state, payload) {
+		state.playing = payload;
+	},
+
+	changeRecognizedShapeX (state, payload) {
+		state.recognizedShapeX = payload;
+	},
+
+	changeRecognizedShapeY (state, payload) {
+		state.recognizedShapeY = payload;
 	},
 
 	changeScore (state, payload) {
